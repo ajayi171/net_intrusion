@@ -40,25 +40,25 @@ def predict():
     c1,c2,c3 = st.columns(3)
 
     with c1:
-        smean = st.number_input('Smean')
-        ct_srv_dst = st.number_input('ct_srv_dst')
-        ct_dst_src_ltm = st.number_input('ct_dst_src_ltm')
-        sbytes = st.number_input('sbytes')
-        dbytes = st.number_input('dbytes')
+        smean = st.number_input('Mean of the row packet size transmitted by the source')
+        ct_srv_dst = st.number_input('No. of connections that contain the same service and destination address in 100 connections according to the last time.')
+        ct_dst_src_ltm = st.number_input('No of connections of the same source and the destination address in 100 connections according to the last time.')
+        sbytes = st.number_input('Number of data bytes transferred from source to destination in single connection')
+        dbytes = st.number_input('Number of data bytes transferred from destination to source in single connection')
         
     with c2:
         sttl = st.number_input('sttl')
-        dur = st.number_input('dur')
-        ct_state_ttl = st.number_input('ct_state_ttl')
-        dload = st.number_input('dload')
-        dmean = st.number_input('dmean')
+        dur = st.number_input('duration of connection')
+        ct_state_ttl = st.number_input('No. for each state according to specific range of values for source/destination time to live.')
+        dload = st.number_input('Destination bits per second')
+        dmean = st.number_input('Mean of the row packet size transmitted by the dst')
 
     with c3:
-        sload = st.number_input('sload')
-        tcprtt = st.number_input('tcprtt')
-        ct_srv_src = st.number_input('ct_srv_src')
+        sload = st.number_input('Source bits per second')
+        tcprtt = st.number_input('TCP connection setup round-trip time')
+        ct_srv_src = st.number_input('No. of connections that contain the same service and source address in 100 connections according to the last time.')
         rate = st.number_input('rate')
-        ct_dst_sport_ltm = st.number_input('ct_dst_sport_ltm')
+        ct_dst_sport_ltm = st.number_input('No of connections of the same destination address and the source port in 100 connections according to the last time.')
 
     feat = np.array([ct_state_ttl,rate,sttl,dmean,ct_dst_src_ltm,
                       dload,ct_srv_src,sbytes,dur,sload,tcprtt,
