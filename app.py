@@ -46,7 +46,7 @@ def predict():
         dbytes = st.number_input('Number of data bytes transferred from destination to source in single connection')
         
     with c2:
-        sttl = st.number_input('sttl')
+        sttl = st.number_input('Source to destination time to live value')
         dur = st.number_input('duration of connection')
         ct_state_ttl = st.number_input('No. for each state according to specific range of values for source/destination time to live.')
         dload = st.number_input('Destination bits per second')
