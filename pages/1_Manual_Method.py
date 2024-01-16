@@ -22,16 +22,19 @@ scaler1 = pickle.load(open('att_scal.pkl', 'rb'))
 scaler2 = pickle.load(open('scal.pkl', 'rb'))
 
 encoder = pickle.load(open('enc.pkl', 'rb'))
+data_new = pd.read_csv('app_data.csv')
+
 
 col3 = ['ct_state_ttl','rate','sttl','dmean','ct_dst_src_ltm',
         'dload','ct_srv_src','sbytes','dur', 'sload', 'tcprtt',
         'ct_srv_dst', 'dbytes', 'smean']
 
+
 sf = ['dur', 'sbytes', 'dbytes', 'sttl', 'sload', 'dload', 
      'smean', 'dmean', 'ct_srv_src', 'ct_srv_dst']
 
-sf2 =  ['sbytes', 'rate', 'sttl', 'sload', 'dload', 'tcprtt', 
-     'smean', 'ct_state_ttl', 'ct_dst_src_ltm', 'ct_srv_dst']
+sf2 =  ['sbytes', 'rate', 'sttl', 'sload', 'dload', 'tcprtt',
+    'smean', 'ct_state_ttl', 'ct_dst_src_ltm', 'ct_srv_dst']
 
 
 def predict():
@@ -69,6 +72,7 @@ def predict():
         
     return feat1
 
+
 def super_learner_predictions(X, models, meta_model):
 	meta_X = list()
 	for model in models:
@@ -78,7 +82,8 @@ def super_learner_predictions(X, models, meta_model):
 	# predict
 	return meta_model.predict(meta_X)
 
-data = predict()
+
+
 
 def prepare(data):
 
@@ -91,6 +96,8 @@ def prepare(data):
 
     return attack_df, intr_df
 
+
+data = predict()
 if st.button('Predict'):
     attack_df, intr_df = prepare(data)
 
