@@ -29,9 +29,6 @@ col3 = ['ct_state_ttl','rate','sttl','dmean','ct_dst_src_ltm',
         'dload','ct_srv_src','sbytes','dur', 'sload', 'tcprtt',
         'ct_srv_dst', 'dbytes', 'smean']
 
-col4 = ['ct_state_ttl','rate','sttl','dmean','ct_dst_src_ltm',
-        'dload','ct_srv_src','sbytes','dur', 'sload', 'tcprtt',
-        'ct_srv_dst', 'dbytes', 'smean','attack_cat']
 
 sf = ['dur', 'sbytes', 'dbytes', 'sttl', 'sload', 'dload', 
      'smean', 'dmean', 'ct_srv_src', 'ct_srv_dst']
@@ -39,31 +36,41 @@ sf = ['dur', 'sbytes', 'dbytes', 'sttl', 'sload', 'dload',
 sf2 =  ['sbytes', 'rate', 'sttl', 'sload', 'dload', 'tcprtt',
     'smean', 'ct_state_ttl', 'ct_dst_src_ltm', 'ct_srv_dst']
 
-tags = ['No. for each state according to specific range of values for source/destination time to live',
-'rate','Source to destination time to live value', 'Mean of the row packet size transmitted by the dst',
-'No of connections of the same source and the destination address in 100 connections according to the last time.',
-'Destination bits per second',
-'No. of connections that contain the same service and source address in 100 connections according to the last time.',
-'Number of data bytes transferred from source to destination in single connection',
-'duration of connection', 'Source bits per second','TCP connection setup round-trip time',
-'No. of connections that contain the same service and destination address in 100 connections according to the last time.',
-'Number of data bytes transferred from destination to source in single connection',
-'Mean of the row packet size transmitted by the source'
-]
 
-data2 = data_new[col3]
-data3 = data_new[col4]
-st.dataframe(data3)
+def predict():
 
+    c1,c2,c3 = st.columns(3)
 
-row_num = st.number_input('Select Row, You would like to Predict', min_value=0, max_value=data2.shape[0]-1, step=1)
-new_d = data2.iloc[row_num]
-new_ddd = new_d.to_list()
-new_d = pd.DataFrame(new_d)
-new_d['Full Name'] = tags
-st.dataframe(new_d)
-feat2 = np.array(new_ddd).reshape(1,-1)
-feat2 = pd.DataFrame(feat2,columns=col3)
+    with c1:
+        smean = st.number_input('Mean of the row packet size transmitted by the source')
+        ct_srv_dst = st.number_input('No. of connections that contain the same service and destination address in 100 connections according to the last time.')
+        ct_dst_src_ltm = st.number_input('No of connections of the same source and the destination address in 100 connections according to the last time.')
+        sbytes = st.number_input('Number of data bytes transferred from source to destination in single connection')
+        dbytes = st.number_input('Number of data bytes transferred from destination to source in single connection')
+        
+    with c2:
+        sttl = st.number_input('Source to destination time to live value')
+        dur = st.number_input('duration of connection')
+        ct_state_ttl = st.number_input('No. for each state according to specific range of values for source/destination time to live.')
+        dload = st.number_input('Destination bits per second')
+        dmean = st.number_input('Mean of the row packet size transmitted by the dst')
+
+    with c3:
+        sload = st.number_input('Source bits per second')
+        tcprtt = st.number_input('TCP connection setup round-trip time')
+        ct_srv_src = st.number_input('No. of connections that contain the same service and source address in 100 connections according to the last time.')
+        rate = st.number_input('rate')
+        ct_dst_sport_ltm = st.number_input('No of connections of the same destination address and the source port in 100 connections according to the last time.')
+
+    feat = np.array([ct_state_ttl,rate,sttl,dmean,ct_dst_src_ltm,
+                      dload,ct_srv_src,sbytes,dur,sload,tcprtt,
+                      ct_srv_dst,dbytes,smean]).reshape(1,-1)
+
+                
+
+    feat1 = pd.DataFrame(feat,columns=col3)
+        
+    return feat1
 
 
 def super_learner_predictions(X, models, meta_model):
@@ -90,8 +97,9 @@ def prepare(data):
     return attack_df, intr_df
 
 
-if st.button('Prediction'):
-    attack_df, intr_df = prepare(feat2)
+data = predict()
+if st.button('Predict'):
+    attack_df, intr_df = prepare(data)
 
     pred = super_learner_predictions(intr_df, models, meta_model)
 
@@ -103,7 +111,6 @@ if st.button('Prediction'):
         # st.subheader(f"{attack[0]}")
         st.warning(f"{attack[0]} Intrusion Detected")
         st.image("dz1.gif")
-
 
         
 

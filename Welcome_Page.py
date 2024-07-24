@@ -6,15 +6,16 @@ st.set_page_config(
     page_icon="👋",
 )
 img = Image.open('nit.png')
-st.write("# AN INTELLIGENT INTRUSION DETECTION SYSTEM FOR MITIGATING NETWORK ATTACKS! 👋")
+st.write("# Welcome My Network Intrusion Detection Demo! 👋")
 
 st.sidebar.success("Select a testing method above")
 
 st.markdown(
     """
-    This is an intelligent system leverages the power of machine learning to identify network intrusion.
+    This is a network intrusion detection demo.
+    It identifies network intrusion by using machine learning.
     You have the option of  selecting a testing method from the sidebar.
-    
+    ### Thanks for using this demo!
 """
 )
 st.image(img, width=700)
