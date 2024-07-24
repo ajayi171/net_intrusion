@@ -7,8 +7,8 @@ from numpy import vstack
 from numpy import asarray
 from PIL import Image
 
-
 st.title("Intrusion Detection App")
+
 
 att_model = pickle.load(open('att_model.pkl', 'rb'))
 # intr_model = pickle.load(open('k_model.pkl', 'rb'))
